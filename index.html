@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自我介紹 - 元智資工 林子玄</title>
+    <style>
+        /* 全局設定與平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            color: #2e4f54;
+            
+            /* 背景圖片與漸層設定 */
+            background: linear-gradient(135deg, rgba(220, 235, 252, 0.9), rgba(255, 255, 255, 0.9)), 
+                        url('background.jpg') center/cover no-repeat fixed;
+        }
+
+        /* 頂部選單 (Navbar) */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #e8ecec;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #2563eb;
+        }
+
+        /* Hero 首頁主視覺區 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(to right, rgba(127, 152, 209, 0.3), rgba(255, 255, 255, 0.5));
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: #2e4f54;
+            letter-spacing: 2px;
+            margin: 10px 0;
+        }
+
+        .scroll-text {
+            font-size: 14px;
+            color: #3b82f6;
+            margin-top: 20px;
+            text-decoration: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .scroll-text:hover {
+            color: #1d4ed8;
+            transform: translateY(3px);
+        }
+
+        /* 內容通用容器卡片 */
+        .section-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(6px);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            position: relative; /* 關鍵：讓內部的蜘蛛人可以相對於這張卡片定位 */
+        }
+
+        /* 標題通用樣式 */
+        h2 {
+            text-align: center;
+            color: #1e3a8a;
+            border-bottom: 2px solid #394861;
+            display: table;
+            margin: 0 auto 30px auto;
+            padding-bottom: 5px;
+            font-size: 28px;
+        }
+
+        /* About Me 區塊 */
+        .cards {
+            display: grid;    
+            grid-template-columns: repeat(3, 1fr);    
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .about-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .about-card li {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* 🕷️ 蜘蛛人：精準掛在卡片右上角的上邊線 */
+        .spider-man {
+            position: absolute;
+            top: -1px;       /* 向上調整讓蛛絲剛好對齊白框上邊界 (可依需求改 -10px ~ -25px) */
+            right: 25px;      /* 靠右距離 25px */
+            width: 60px;      /* 蜘蛛人大小 */
+            height: auto;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .spider-man:hover {
+            transform: scale(1.2); /* 懸停放大效果 */
+        }
+
+        /* 我的興趣內文置中 */
+        .interest-content {
+            text-align: center; /* 讓文字整體置中 */
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        /* 課表區塊樣式 */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin-top: 20px;
+        }
+
+        .day {
+            background-color: rgb(160, 228, 255);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .time {
+            background-color: rgb(254, 242, 159);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        td, th {
+            font-size: 14px;
+            vertical-align: middle;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        td:hover {
+            background-color: #e2e8f0;
+            transition: background-color 0.2s ease;
+        }
+
+        /* 底部聯絡資訊 (Footer) */
+        footer {
+            background-color: rgba(30, 41, 59, 0.95);
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+
+        footer h3 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            
+        }
+
+        .contact-links a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        .contact-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部導覽列 -->
+    <nav>
+        <a href="#about">關於我</a>
+        <a href="#interest">我的興趣</a>
+        <a href="#timetable">我的課表</a>
+        <a href="#contact">聯絡我</a>
+    </nav>
+
+    <!-- Hero 首頁視圖 -->
+    <div class="hero">
+        <h1>Welcome to my personal website!</h1>
+        <p>元智資工 林子玄</p>
+        <a href="#about" class="scroll-text">↓ SCROLL TO EXPLORE</a>
+    </div>
+
+    <!-- About Me 區塊 -->
+    <div class="section-container" id="about">
+        <h2>About Me</h2>
+        <div class="cards">
+            <div class="about-card"><ul><li>🎓 元智大學</li></ul></div>
+            <div class="about-card"><ul><li>💻 資訊工程學系</li></ul></div>
+            <div class="about-card"><ul><li>📚 A班</li></ul></div>
+            <div class="about-card"><ul><li>🏀 Basketball</li></ul></div>
+            <div class="about-card"><ul><li>🏐 Volleyball</li></ul></div>
+            <div class="about-card"><ul><li>🏋️‍♂️ Fitness</li></ul></div>
+        </div>
+    </div>
+
+    <!-- 我的興趣區塊（蜘蛛人掛在右上角邊框，內文置中） -->
+    <div class="section-container" id="interest">
+        <img src="spiderman.png" alt="Spider-Man" class="spider-man">
+        <h2>我的興趣</h2>
+        <div class="interest-content">
+            <p>
+                喜歡看些影集，像是哈利波特、蜘蛛人...<br>
+                喜歡打籃球！沒有很厲害哈哈哈。到了高中也漸漸對排球和健身感興趣！主要減肥...<br>
+                希望在大學可以遇到一起玩的人呀！
+            </p>
+        </div>
+    </div>
+
+    <!-- 我的課表區塊 -->
+    <div class="section-container" id="timetable">
+        <h2>我的課表</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th style="padding: 10px;" class="day">Mon</th>
+                <th style="padding: 10px;" class="day">Tue</th>
+                <th style="padding: 10px;" class="day">Wed</th>
+                <th style="padding: 10px;" class="day">Thu</th>
+                <th style="padding: 10px;" class="day">Fri</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">08:10~09:00</td>
+                <td></td>
+                <td style="padding: 10px;">英語（一）：中階英語</td>
+                <td></td>
+                <td></td>
+                <td style="padding: 10px;">中文閱讀、思辨與表達（一）</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">09:10~10:00</td>
+                <td></td>
+                <td style="padding: 10px;">英語（一）：中階英語</td>
+                <td></td>
+                <td style="padding: 10px;">資訊概論</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">10:10~11:00</td>
+                <td></td>
+                <td style="padding: 10px;">基礎程式設計-C++實習（一）</td>
+                <td></td>
+                <td style="padding: 10px;">資訊概論</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">11:10~12:00</td>
+                <td></td>
+                <td style="padding: 10px;">基礎程式設計-C++實習（一）</td>
+                <td></td>
+                <td style="padding: 10px;">資訊概論</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">12:10~13:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">13:10~14:00</td>
+                <td style="padding: 10px;">微積分（一）</td>
+                <td style="padding: 10px;">醫學工程概論（一）</td>
+                <td></td>
+                <td style="padding: 10px;">程式設計（一）</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">14:10~15:00</td>
+                <td style="padding: 10px;">微積分（一）</td>
+                <td style="padding: 10px;">醫學工程概論（一）</td>
+                <td></td>
+                <td style="padding: 10px;">Web程式設計</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">15:10~16:00</td>
+                <td style="padding: 10px;">微積分（一）</td>
+                <td style="padding: 10px;">程式設計（一）</td>
+                <td></td>
+                <td style="padding: 10px;">Web程式設計</td>
+                <td style="padding: 10px;">體育</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;" class="time">16:10~17:00</td>
+                <td></td>
+                <td style="padding: 10px;">程式設計（一）</td>
+                <td></td>
+                <td style="padding: 10px;">Web程式設計</td>
+                <td style="padding: 10px;">體育</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 頁尾聯絡資訊 -->
+    <footer id="contact">
+        <h3>Contact Me</h3>
+        <p>歡迎來到我的個人網站！如果有任何交流或問題，歡迎隨時聯絡我。</p>
+        <div class="contact-links">
+            <p><img src="outlook.png" alt="Email" width="20" height="20" style="left: 10px; top: 100px;"> <a href="mailto:s1151404@mail.yzu.edu.tw">s1151404@mail.yzu.edu.tw</a></p>
+            <p><img src="ig.png" alt="Instagram" width="20" height="20" > <a href="https://www.instagram.com/zih_.117_/" target="_blank">@zih_.117_</a></p>
+        </div>
+        <p style="font-size: 12px; color: #94a3b8; margin-top: 25px;">© 2026 website. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
